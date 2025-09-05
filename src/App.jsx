@@ -8,9 +8,9 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<RegisterComponent />} />      {/* Ruta por defecto: registro */}
-          <Route path="/login" element={<LoginComponent />} />    {/* Ruta login */}
-          <Route path="/products" element={<Products />} />       {/* Ruta productos */}
+          <Route path="/" element={<RegisterComponent />} />      
+          <Route path="/login" element={<LoginComponent />} />    
+          <Route path="/products" element={<Products />} />       
         </Routes>
       </BrowserRouter>
     </div>
