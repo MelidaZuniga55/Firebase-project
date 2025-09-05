@@ -1,11 +1,12 @@
 /* =======================
-   Estilos para LoginComponent
+   Estilos para LoginComponent y RegisterComponent
    ======================= */
 .login-card {
     max-width: 400px;
     width: 100%;
     border-radius: 15px;
     background: linear-gradient(135deg, #C3B1E1, #A2D2FF);
+    padding: 2rem;
 }
 
 .login-card h3 {
@@ -34,10 +35,29 @@
 }
 
 /* =======================
-   Estilos para Products
+   Estilos para el link de login en RegisterComponent
+   ======================= */
+.login-card p {
+    font-size: 0.9rem;
+    color: #2B2D42;
+}
+
+.login-card p span {
+    color: #6A4C93;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-card p span:hover {
+    color: #836FA9;
+}
+
+/* =======================
+   Productos (sin cambios)
    ======================= */
 .products-card {
-    max-width: 500px;   /* 👈 un solo bloque centrado */
+    max-width: 500px;
     margin: 0 auto;
     width: 100%;
     border-radius: 15px;
@@ -75,8 +95,8 @@
 /* Lista dentro de la tarjeta */
 .products-list {
     border-radius: 10px;
-    overflow-y: auto;         /* 👈 scroll vertical */
-    max-height: 300px;        /* 👈 altura máxima */
+    overflow-y: auto;
+    max-height: 300px;
     margin-top: 1rem;
     padding: 0;
 }
@@ -85,25 +105,24 @@
    Scroll personalizado
    ======================= */
 .products-list::-webkit-scrollbar {
-    width: 8px;                /* ancho de la barra */
+    width: 8px;
 }
 
 .products-list::-webkit-scrollbar-track {
-    background: #EAE6F2;       /* color de fondo del track */
+    background: #EAE6F2;
     border-radius: 10px;
 }
 
 .products-list::-webkit-scrollbar-thumb {
-    background: #6A4C93;       /* color del scroll */
+    background: #6A4C93;
     border-radius: 10px;
     transition: background 0.3s;
 }
 
 .products-list::-webkit-scrollbar-thumb:hover {
-    background: #836FA9;       /* color al pasar el mouse */
+    background: #836FA9;
 }
 
-/* Compatibilidad con Firefox */
 .products-list {
     scrollbar-width: thin;
     scrollbar-color: #6A4C93 #EAE6F2;
