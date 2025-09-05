@@ -1,91 +1,129 @@
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { db } from "../../repositories/firebase/config";
 import { useEffect, useState } from "react";
+import '../../assets/css/styles.css';
 
 export const Products = () => {
-  // Estado original para mostrar la lista de productos
+  //Utilizar este estado para mapear los productos
   const [products, setProducts] = useState([]);
-
-  // 🆕 Estado para controlar el formulario de nuevos productos
   const [newProduct, setNewProduct] = useState({ name: "", price: "", stock: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // Obtener productos de Firestore
+  //Obtener los productos de Firestore
   const getProducts = async () => {
-    const querySnapshot = await getDocs(collection(db, "products"));
-    const productsData = [];
-
-    querySnapshot.forEach((doc) => {
-      productsData.push({ id: doc.id, ...doc.data() });
-    });
-
-    setProducts(productsData);
+    setLoading(true);
+    try {
+      const querySnapshot = await getDocs(collection(db, "products"));
+      const productsData = [];
+      querySnapshot.forEach((doc) => {
+        productsData.push({ id: doc.id, ...doc.data() });
+      });
+      setProducts(productsData);
+    } catch (err) {
+      console.error(err);
+      setError("Error al cargar los productos");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Agregar un producto a Firestore
+  //Utilizar la funcion en un formulario
   const addProduct = async (product) => {
-    const docRef = await addDoc(collection(db, "products"), {
-      name: product.name,
-      price: product.price,
-      stock: product.stock
-    });
-    console.log("Document written with ID: ", docRef.id);
-
-    getProducts(); // 🆕 Recargar la lista después de agregar un producto
+    try {
+      await addDoc(collection(db, "products"), {
+        name: product.name,
+        price: Number(product.price),
+        stock: Number(product.stock)
+      });
+      setNewProduct({ name: "", price: "", stock: "" });
+      getProducts();
+      setError("");
+    } catch (err) {
+      console.error(err);
+      setError("Error al agregar el producto");
+    }
   };
 
-  // Ejecutar getProducts cuando cargue el componente
   useEffect(() => {
     getProducts();
   }, []);
 
   return (
     <div className="container mt-5">
-      <h2>Products</h2>
+      <div className="products-card">
+        <h2 className="text-center mb-4" style={{ color: "#4B3F72", fontWeight: "600" }}>
+          Gestión de Productos🛍️
+        </h2>
 
-      {/* 🆕 Formulario para agregar un producto */}
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={newProduct.name}
-          onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-          className="form-control mb-2"
-        />
-        <input
-          type="number"
-          placeholder="Precio"
-          value={newProduct.price}
-          onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-          className="form-control mb-2"
-        />
-        <input
-          type="number"
-          placeholder="Stock"
-          value={newProduct.stock}
-          onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
-          className="form-control mb-2"
-        />
+
+        {error && <p className="text-danger text-center">{error}</p>}
+
+        <div className="mb-3">
+          <input
+            type="text"
+            placeholder="Nombre"
+            value={newProduct.name}
+            onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+            className="form-control"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="number"
+            placeholder="Precio"
+            value={newProduct.price}
+            onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+            className="form-control"
+            min="0"
+            step="0.01"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="number"
+            placeholder="Stock"
+            value={newProduct.stock}
+            onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
+            className="form-control"
+            min="0"
+          />
+        </div>
+
         <button
-          className="btn btn-primary"
+          className="btn"
           onClick={() => {
-            if (newProduct.name && newProduct.price && newProduct.stock) {
-              addProduct(newProduct); // 🆕 Llamamos a addProduct
-              setNewProduct({ name: "", price: "", stock: "" }); // 🆕 Limpiar formulario
+            if (!newProduct.name || newProduct.price === "" || newProduct.stock === "") {
+              setError("Todos los campos son obligatorios");
+              return;
             }
+            if (Number(newProduct.price) < 0 || Number(newProduct.stock) < 0) {
+              setError("Precio y stock deben ser números positivos");
+              return;
+            }
+            addProduct(newProduct);
           }}
         >
           Agregar Producto
         </button>
-      </div>
 
-      {/* 🆕 Lista de productos obtenidos desde Firestore */}
-      <ul className="list-group">
-        {products.map((p) => (
-          <li key={p.id} className="list-group-item">
-            {p.name} - ${p.price} - Stock: {p.stock}
-          </li>
-        ))}
-      </ul>
+        {/* Lista */}
+        <h4 className="text-center mt-4 mb-3">Lista de Productos</h4>
+        {loading ? (
+          <p className="text-center">Cargando productos...</p>
+        ) : (
+          <ul className="list-group products-list">
+            {products.map((p) => (
+              <li key={p.id}>
+                <div>
+                  <strong>{p.name}</strong> <br />
+                  <small>Precio: ${parseFloat(p.price).toFixed(2)} | Stock: {p.stock}</small>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

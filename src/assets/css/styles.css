@@ -1,0 +1,130 @@
+/* =======================
+   Estilos para LoginComponent
+   ======================= */
+.login-card {
+    max-width: 400px;
+    width: 100%;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #C3B1E1, #A2D2FF);
+}
+
+.login-card h3 {
+    color: #2B2D42;
+}
+
+.login-card label {
+    color: #2B2D42;
+}
+
+.login-card input {
+    border-radius: 10px;
+    border-color: #6A4C93;
+}
+
+.login-card button {
+    border-radius: 10px;
+    font-weight: 500;
+    background: #6A4C93;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.login-card button:hover {
+    background: #836FA9;
+}
+
+/* =======================
+   Estilos para Products
+   ======================= */
+.products-card {
+    max-width: 500px;   /* 👈 un solo bloque centrado */
+    margin: 0 auto;
+    width: 100%;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #C3B1E1, #A2D2FF);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+.products-card h2,
+.products-card h4 {
+    color: #2B2D42;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.products-card input {
+    border-radius: 10px;
+    border-color: #6A4C93;
+}
+
+.products-card button {
+    border-radius: 10px;
+    font-weight: 500;
+    background: #6A4C93;
+    color: #fff;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.products-card button:hover {
+    background: #836FA9;
+}
+
+/* Lista dentro de la tarjeta */
+.products-list {
+    border-radius: 10px;
+    overflow-y: auto;         /* 👈 scroll vertical */
+    max-height: 300px;        /* 👈 altura máxima */
+    margin-top: 1rem;
+    padding: 0;
+}
+
+/* =======================
+   Scroll personalizado
+   ======================= */
+.products-list::-webkit-scrollbar {
+    width: 8px;                /* ancho de la barra */
+}
+
+.products-list::-webkit-scrollbar-track {
+    background: #EAE6F2;       /* color de fondo del track */
+    border-radius: 10px;
+}
+
+.products-list::-webkit-scrollbar-thumb {
+    background: #6A4C93;       /* color del scroll */
+    border-radius: 10px;
+    transition: background 0.3s;
+}
+
+.products-list::-webkit-scrollbar-thumb:hover {
+    background: #836FA9;       /* color al pasar el mouse */
+}
+
+/* Compatibilidad con Firefox */
+.products-list {
+    scrollbar-width: thin;
+    scrollbar-color: #6A4C93 #EAE6F2;
+}
+
+.products-list li {
+    background: linear-gradient(135deg, #A2D2FF, #C3B1E1);
+    border: none;
+    border-bottom: 1px solid #fff;
+    padding: 15px;
+    border-radius: 0;
+    transition: all 0.3s;
+    cursor: pointer;
+    list-style: none;
+}
+
+.products-list li:hover {
+    transform: scale(1.02);
+}
+
+.products-list li strong,
+.products-list li small {
+    color: #2B2D42;
+}
